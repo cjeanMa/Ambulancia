@@ -18,7 +18,8 @@ export class UserController{
     }
 
     async getOne(req:Request, res:Response){
-        const user : Result<UserResponseDTO> = await userUseCase.getOne(1);
+        const id = parseInt(req.params.id)
+        const user : Result<UserResponseDTO> = await userUseCase.getOne(id)
         res.json(user);
     }
 
@@ -28,6 +29,9 @@ export class UserController{
     }
 
     async create(req: Request, res:Response){
+
+        const {name, email, password, photo, roles} = req.body
+        console.log({name, email, password, photo, roles})
 
         let user:Partial<UserModel> = {
             name: "luz marina",

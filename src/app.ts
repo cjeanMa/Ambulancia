@@ -6,17 +6,22 @@ import { ErrorHandler, IError } from './shared/helpers/error.handler';
 
 const app:Application = express();
 
+/* Middlewares */
+
+app.use(express.json())
+//app.use(express.urlencoded({extended:true}))
+
 /* Routes */
-app.use("/users", routeUsers);
-app.use("/medics", routeMedics);
+app.use("/users", routeUsers)
+app.use("/medics", routeMedics)
 app.use("/drivers", routeDrivers)
 
 /* To handle errors*/
 app.use("*", ErrorHandler.notFound)  
 
-app.use((error:IError, req:Request, res:Response, next:NextFunction)=>{
-    return res.json(error)
-})
+/* app.use((error:IError, req:Request, res:Response, next:NextFunction)=>{
+    return res.json({msg: "aqui llegaste"})
+}) */
 
 app.use(ErrorHandler.generic)
 

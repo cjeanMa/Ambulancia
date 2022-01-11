@@ -21,7 +21,7 @@ export class UserUseCase {
 
     async getOne(id:number): Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
-        const result : UserModel = await this.operation.getOne(1);
+        const result : UserModel = await this.operation.getOne(id);
         return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result), 1, "UserCase, GetOne")
     }
 

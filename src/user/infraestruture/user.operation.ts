@@ -4,7 +4,7 @@ import { UserModel } from "../domain/user.model";
 export class UserOperation implements UserRepository {
     getOne(id: number): Promise<UserModel> {
         return Promise.resolve({
-            id: 1,
+            id,
             name: "camilo",
             email: "camilo@g.com",
             password: "caballo",

@@ -17,7 +17,8 @@ export class DriverController{
     }
 
     async getOne(req:Request, res:Response){
-        const result : Result<DriverResponseDTO> = await driverUseCase.getOne(1);
+        const id = parseInt(req.params.id);
+        const result : Result<DriverResponseDTO> = await driverUseCase.getOne(id);
         res.json(result);
     }
 

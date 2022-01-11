@@ -18,7 +18,7 @@ export class ErrorHandler{
 
     static asyncError(ftn: (req:Request, res:Response, next: NextFunction)=>Promise<any>){
         return (req:Request, res:Response, next:NextFunction)=>{
-            ftn(req, res, next).catch((error)=>{
+            ftn(req, res, next).catch((error)=>{ 
                 const traceId = generateTrace();
                 const err:IError = new Error("Error on async")
                 err.status = error.status
