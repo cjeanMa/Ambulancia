@@ -1,4 +1,4 @@
-export interface roleModel{
+export interface RoleModel{
     id:number,
     name: string
 }

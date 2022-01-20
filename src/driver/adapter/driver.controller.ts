@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { Result } from "../../shared/application/result.repository";
 import { DriverResponseDTO } from "../application/driver.dto";
+import { DriverRepository } from "../application/driver.repository";
 import { DriverUseCase } from "../application/driver.usecase";
 import { DriverModel } from "../domain/driver.model";
 import { DriverOperation } from "../infraestructure/driver.operation";
 
-const operationDriver = new DriverOperation(); 
+const operationDriver:DriverOperation = new DriverOperation(); 
 const driverUseCase = new DriverUseCase(operationDriver);
 
 
@@ -28,13 +29,8 @@ export class DriverController{
     }
 
     async create(req: Request, res:Response){
-
-        let medic:Partial<DriverModel> = {
-            name: "luz marina",
-            lastname: "chacon"
-        }
-
-        const dataUser :  Result<DriverResponseDTO> = await driverUseCase.insert(medic);
+        let medic:Partial<DriverModel> = req.body;
+        const dataUser:Result<DriverResponseDTO> = await driverUseCase.insert(medic);
         res.json(dataUser);
     }
     async update(req: Request, res:Response){

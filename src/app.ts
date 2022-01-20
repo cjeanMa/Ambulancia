@@ -2,6 +2,7 @@ import express,  {Application, Request, Response, NextFunction} from 'express';
 import {router as routeUsers} from "./user/adapter/user.route"
 import {router as routeMedics} from "./medic/adapter/medic.routes"
 import {router as routeDrivers} from "./driver/adapter/driver.routes"
+import {router as routeRoles} from "./role/adapter/role.routes"
 import { ErrorHandler, IError } from './shared/helpers/error.handler';
 
 const app:Application = express();
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use("/users", routeUsers)
 app.use("/medics", routeMedics)
 app.use("/drivers", routeDrivers)
+app.use("/roles", routeRoles)
 
 /* To handle errors*/
 app.use("*", ErrorHandler.notFound)  

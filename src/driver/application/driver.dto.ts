@@ -1,22 +1,25 @@
 import { DriverModel } from "../domain/driver.model";
 
 export interface DriverResponseDTO{
-    id: number,
-    name: string,
-    lastname:string
+    codigo: number,
+    nombre: string,
+    apellido:string,
+    licencia: string
 }
+
 
 export const mappingDriverDto = 
 (drivers : DriverModel | DriverModel[]) : DriverResponseDTO | DriverResponseDTO[] =>{
     if(Array.isArray(drivers)){
         return drivers.map(el=>{
             return {
-                id: el.id,
-                name: el.name,
-                lastname: el.lastname
+                codigo: el.id,
+                nombre: el.name,
+                apellido: el.lastname,
+                licencia: el.driverLicense
             }
         })
     }
-    const {id, name, lastname} = drivers;
-    return {id, name, lastname}
+    const {id, name, lastname, driverLicense} = drivers;
+    return {codigo:id, nombre:name, apellido:lastname, licencia:driverLicense}
 }

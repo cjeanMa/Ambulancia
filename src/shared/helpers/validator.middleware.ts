@@ -4,7 +4,6 @@ import { IError } from "./error.handler";
 
 export const validatorJoi = (schema: any) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        console.log("Validator - ", res.locals.paramsMerged)
         const resValidation = schema.validate(res.locals.paramsMerged)
         let errorValidations : string[] = []
         if (resValidation.hasOwnProperty('error')) {

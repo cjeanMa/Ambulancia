@@ -1,7 +1,8 @@
+import { UserEntity } from "../../entities/user.entity";
 import { GeneralRepository } from "../../shared/application/general.repository";
 import { UserModel } from "../domain/user.model";
 
-export interface UserRepository extends GeneralRepository<UserModel>{
+export interface UserRepository extends GeneralRepository<UserEntity>{
 
 /*     list():Promise<UserModel[]>;
     getOne(id: number):Promise<UserModel>;

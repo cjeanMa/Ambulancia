@@ -14,7 +14,7 @@ export class UserUseCase {
 
     async list() : Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
-        const result : UserModel[]= await this.operation.list();
+        const result : UserModel[]= await this.operation.list({},[],{});
 
        return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result), 1, "UserCase, List")
     }
@@ -35,7 +35,7 @@ export class UserUseCase {
 
     async getPage(page:number) : Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
-        const result = await this.operation.getPage(1);
+        const result = await this.operation.getPage(page);
         return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result.data), 1, "UserCase, GetPage", result.total)
     }
 

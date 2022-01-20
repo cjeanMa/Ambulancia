@@ -4,15 +4,16 @@ import { generateTrace } from "../../shared/helpers/trace";
 import { DriverModel } from "../domain/driver.model";
 import { DriverOperation } from "../infraestructure/driver.operation";
 import { DriverResponseDTO, mappingDriverDto } from "./driver.dto";
+import { DriverRepository } from "./driver.repository";
 
 export class DriverUseCase{
     
-    constructor(private operation : DriverOperation){
+    constructor(private operation : DriverRepository){
     }
 
     async list(): Promise<Result<DriverResponseDTO>>{
         const traceId = generateTrace();
-        const result : DriverModel[] = await this.operation.list();
+        const result : DriverModel[] = await this.operation.list({}, [], {});
         return ResponseDTO.format<DriverResponseDTO>(traceId, mappingDriverDto(result), 2, "list drivers");
     }
 

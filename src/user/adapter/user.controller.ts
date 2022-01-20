@@ -4,7 +4,7 @@ import { UserResponseDTO } from "../application/user.dto";
 import { UserRepository } from "../application/user.repository";
 import { UserUseCase } from "../application/user.usecase";
 import { UserModel } from "../domain/user.model";
-import { UserOperation } from "../infraestruture/user.operation";
+import { UserOperation } from "../infraestructure/user.operation";
 
 const userOperation:UserRepository = new UserOperation();
 const userUseCase = new UserUseCase(userOperation);
@@ -12,9 +12,8 @@ const userUseCase = new UserUseCase(userOperation);
 export class UserController{
 
     async list(req: Request, res:Response){
-        /* const result : Result<UserResponseDTO> = await userUseCase.list();
-        res.json(result); */
-        return Promise.reject({status: 409, message: "User Forbidden", stack: "anything"})
+        const users : Result<UserResponseDTO> = await userUseCase.list()
+        res.json(users)
     }
 
     async getOne(req:Request, res:Response){
@@ -24,40 +23,26 @@ export class UserController{
     }
 
     async getPage(req:Request, res:Response){
-        const page : Result<UserResponseDTO> = await userUseCase.getPage(1);
-        res.json(page);
+        const page : number = parseInt(req.params.id);
+        const result : Result<UserResponseDTO> = await userUseCase.getPage(page);
+        res.json(result);
     }
 
     async create(req: Request, res:Response){
-
-        const {name, email, password, photo, roles} = req.body
-        console.log({name, email, password, photo, roles})
-
-        let user:Partial<UserModel> = {
-            name: "luz marina",
-            email: "luz@g.com",
-            password: "caballa",
-            photo: "paht/path.jopg",
-            roles: ['ADMIN']
-        }
-
-        const dataUser : Result<UserResponseDTO> = await userUseCase.insert(user);
-        res.json(dataUser);
+        let user:Partial<UserModel> = req.body
+        const result : Result<UserResponseDTO> = await userUseCase.insert(user);
+        res.json(result);
     }
     async update(req: Request, res:Response){
-        let dataUser:Partial<UserModel> = {
-            name: "luz marina",
-            email: "luz@g.com",
-            password: "caballa",
-            photo: "paht/path.jopg",
-            roles: ['ADMIN']
-        }
-        const user : Result<UserResponseDTO> = await userUseCase.update(1,dataUser)
-        res.json(user)
+        const id : number = parseInt(req.params.id)
+        let user:Partial<UserModel> = req.body;
+        const result : Result<UserResponseDTO> = await userUseCase.update(id,user)
+        res.json(result)
     }
 
     async delete(req:Request, res:Response){
-        const user:Result<UserResponseDTO> = await userUseCase.delete(2);
+        const id : number = parseInt(req.params.id)
+        const user:Result<UserResponseDTO> = await userUseCase.delete(id);
         res.json(user)
     }
 }

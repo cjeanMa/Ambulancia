@@ -1,18 +1,18 @@
-import { format } from "path/posix";
 import { Result } from "../../shared/application/result.repository";
 import { ResponseDTO } from "../../shared/helpers/response.dto";
 import { generateTrace } from "../../shared/helpers/trace";
 import { MedicModel } from "../domain/medic.model";
 import { MedicOperation } from "../infraestructure/medic.operation";
 import { mappingMedicDTO, MedicResponseDTO } from "./medic.dto";
+import { MedicRepository } from "./medic.repository";
 
 export class MedicUseCase{
 
-    constructor(private operation:MedicOperation){}
+    constructor(private operation:MedicRepository=new MedicOperation()){}
 
     async list(): Promise<Result<MedicResponseDTO>>{
         const traceId = generateTrace();
-        const result : MedicModel[] = await this.operation.list();
+        const result : MedicModel[] = await this.operation.list({},[],{});
         return ResponseDTO.format<MedicResponseDTO>(traceId, mappingMedicDTO(result), 2, "list Medics");
     }
 
@@ -36,7 +36,7 @@ export class MedicUseCase{
 
     async getPage(page:number) : Promise<Result<MedicResponseDTO>>{
         const traceId = generateTrace();
-        const result = await this.operation.getPage(1);
+        const result = await this.operation.getPage(page);
         return ResponseDTO.format<MedicResponseDTO>(traceId, mappingMedicDTO(result.data), 1, "UserCase, GetPage", result.total)
     }
 

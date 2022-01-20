@@ -19,11 +19,9 @@ export const driverSchema ={
         page: Joi.number().integer().required(),
     }),
     INSERT: Joi.object({
-        id: Joi.number().integer().required(),
         name: Joi.string().required(),
-        email: Joi.string().required(),
+        lastname: Joi.string().required(),
         driverLicense: Joi.string().required(),
-        isoCountry: Joi.string().required(),
-        authorization: Joi.string()
+        isoCountry: Joi.string().required()
     })
 }
