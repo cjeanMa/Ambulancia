@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RoleEntity } from "./role.entity";
 
 @Entity({ name: "user" })
@@ -18,6 +18,10 @@ export class UserEntity {
     @Column({ type: "varchar", length: 50 })
     photo: string
 
-    @ManyToMany(type=>RoleEntity, role=>role.users)
+    @Column({ type: "varchar"})
+    refreshToken: string
+
+    @ManyToMany(type=>RoleEntity)
+    @JoinTable()
     roles: RoleEntity[]
 }

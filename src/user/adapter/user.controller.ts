@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { RoleRepository } from "../../role/application/role.repository";
+import { RoleOperation } from "../../role/infraestructure/Role.operation";
 import { Result } from "../../shared/application/result.repository";
 import { UserResponseDTO } from "../application/user.dto";
 import { UserRepository } from "../application/user.repository";
@@ -7,7 +9,8 @@ import { UserModel } from "../domain/user.model";
 import { UserOperation } from "../infraestructure/user.operation";
 
 const userOperation:UserRepository = new UserOperation();
-const userUseCase = new UserUseCase(userOperation);
+const roleOperation:RoleRepository = new RoleOperation();
+const userUseCase = new UserUseCase(userOperation, roleOperation);
 
 export class UserController{
 
@@ -29,7 +32,16 @@ export class UserController{
     }
 
     async create(req: Request, res:Response){
-        let user:Partial<UserModel> = req.body
+        let {name, email, password, photo, roles} = req.body;
+        roles = roles.map((el:string)=>parseInt(el))
+
+        let user:Partial<UserModel> = {
+            name,
+            email,
+            password,
+            photo,
+            roles
+        }  
         const result : Result<UserResponseDTO> = await userUseCase.insert(user);
         res.json(result);
     }

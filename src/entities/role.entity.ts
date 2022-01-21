@@ -9,7 +9,4 @@ export class RoleEntity{
     @Column()
     name: string
 
-    @ManyToMany(type=>UserEntity, user=>user.roles)
-    @JoinTable()
-    users:UserEntity[]
 }

@@ -10,7 +10,7 @@ export const userSchemas = {
         email: Joi.string(),
         password: Joi.string(),
         photo: Joi.string(),
-        roles: Joi.array().items(Joi.string()),
+        roles: Joi.array().items(Joi.number()),
         authorization: Joi.string()
     }),
     DELETE: Joi.object({
@@ -24,6 +24,6 @@ export const userSchemas = {
         email: Joi.string().required(),
         password: Joi.string().required(),
         photo: Joi.string(),
-        roles: Joi.array().items(Joi.string()).required()
+        roles: Joi.array().items(Joi.number()).required()
     })
 }

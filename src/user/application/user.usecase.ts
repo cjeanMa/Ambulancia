@@ -1,3 +1,4 @@
+import { RoleRepository } from "../../role/application/role.repository";
 import { Result } from "../../shared/application/result.repository";
 import { ResponseDTO } from "../../shared/helpers/response.dto";
 import { generateTrace } from "../../shared/helpers/trace";
@@ -8,13 +9,13 @@ import { UserService } from "./user.service";
 
 export class UserUseCase {
 
-    constructor(private operation: UserRepository){
+    constructor(private operation: UserRepository, private roleOperation : RoleRepository){
 
     }
 
     async list() : Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
-        const result : UserModel[]= await this.operation.list({},[],{});
+        const result : UserModel[]= await this.operation.list({},["roles"],{});
 
        return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result), 1, "UserCase, List")
     }
@@ -22,13 +23,21 @@ export class UserUseCase {
     async getOne(id:number): Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
         const result : UserModel = await this.operation.getOne(id);
+        console.log(result)
         return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result), 1, "UserCase, GetOne")
     }
 
     async insert(user: Partial<UserModel>) : Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
-        //const partialUser = Object.assign({id:123}, user)
         user.password = await UserService.cryptPassword(user.password);
+        user.refreshToken = await UserService.generateRefreshToken()
+        let inputRoles : any[] = user.roles;
+        let listRoles : any[] = [];
+        inputRoles.forEach(el=> {
+            listRoles.push(this.roleOperation.getOne(el))
+        })
+        let roles = await Promise.all(listRoles)
+        user.roles = roles;
         const result : UserModel = await this.operation.create(user);
         return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result), 1, "UserCase, Insert")
     }

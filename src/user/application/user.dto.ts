@@ -1,10 +1,11 @@
+import { RoleModel } from "../../role/domain/role.model";
 import { UserModel } from "../domain/user.model";
 
 export interface UserResponseDTO {
     id: number,
     name: string,
     email: string,
-    roles: any,
+    roles: string[],
     photo: string
 }
 
@@ -14,22 +15,14 @@ export const mappingUserDTO = (data: UserModel | UserModel[]): UserResponseDTO |
         const newUserResponse: UserResponseDTO[] = [];
         data.forEach(el => {
             const { id, name, email, roles, photo } = el;
-            newUserResponse.push({ id, name, email, roles, photo })
+            const rolesString : string[] = roles.map(el=>el.name)
+            newUserResponse.push({ id, name, email, roles:rolesString, photo })
         })
         return newUserResponse
     }
     else {
         const { id, name, email, roles, photo } = data;
-       /*  let newUserResponse: UserResponseDTO = {
-            id,
-            name,
-            email,
-            roles,
-            photo
-        } 
-        return newUserResponse; */
-
-        return { id, name, email, roles, photo };
+        return { id, name, email, roles: roles.map(el=>el.name), photo };
 
     }
 
