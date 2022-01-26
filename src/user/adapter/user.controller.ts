@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { UsingJoinColumnOnlyOnOneSideAllowedError } from "typeorm";
 import { RoleRepository } from "../../role/application/role.repository";
 import { RoleOperation } from "../../role/infraestructure/Role.operation";
 import { Result } from "../../shared/application/result.repository";
@@ -26,9 +27,11 @@ export class UserController{
     }
 
     async getPage(req:Request, res:Response){
-        const page : number = parseInt(req.params.id);
+        const page : number = parseInt(req.params.page);
         const result : Result<UserResponseDTO> = await userUseCase.getPage(page);
-        res.json(result);
+        if(!result)
+            return res.status(401).json({msg: "Page not found"});
+        res.json(result)
     }
 
     async create(req: Request, res:Response){
@@ -43,7 +46,7 @@ export class UserController{
             roles
         }  
         const result : Result<UserResponseDTO> = await userUseCase.insert(user);
-        res.json(result);
+        res.json(result)
     }
     async update(req: Request, res:Response){
         const id : number = parseInt(req.params.id)

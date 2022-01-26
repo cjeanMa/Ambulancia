@@ -15,7 +15,6 @@ export const mergeParameter= () =>{
         if(req.hasOwnProperty("headers") && req.headers.authorization){
             paramsMerged = {authorization: req.headers.authorization, ...paramsMerged}
         }
-
         res.locals.paramsMerged = {...paramsMerged};
         next()
     }

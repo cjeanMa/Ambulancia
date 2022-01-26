@@ -4,11 +4,16 @@ import { UserController } from './user.controller';
 import { validatorJoi } from '../../shared/helpers/validator.middleware';
 import { userSchemas } from '../application/user.schemas';
 import { mergeParameter } from '../../shared/helpers/parameters.middleware';
+import { AutheticationGuard } from '../../shared/guards/authentication.guard';
+import { AuthorizationGuard } from '../../shared/guards/authorization.guard';
+import { UploadMiddleware } from '../../shared/middlewares/upload.middleware';
 
 const router = Router();
 const userController = new UserController();
 
 router.get("/", 
+            AutheticationGuard.canActivate,
+            AuthorizationGuard.rolAuthorization("ADMIN"),
             ErrorHandler.asyncError(userController.list))
 router.get("/:id",
             mergeParameter(),
@@ -19,9 +24,10 @@ router.get("/page/:page",
             validatorJoi(userSchemas.GET_PAGE),
             ErrorHandler.asyncError(userController.getPage))
 router.post("/",
+            UploadMiddleware.S3("photo",["image/gif", "image/png", "image/jpeg", "image/jpg"]),
             mergeParameter(),
             validatorJoi(userSchemas.INSERT),
-            ErrorHandler.asyncError(userController.create))
+            userController.create)
 router.put("/:id",
             mergeParameter(), 
             validatorJoi(userSchemas.UPDATE),

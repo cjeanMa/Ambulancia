@@ -24,6 +24,6 @@ export const userSchemas = {
         email: Joi.string().required(),
         password: Joi.string().required(),
         photo: Joi.string(),
-        roles: Joi.array().items(Joi.number()).required()
+        roles: Joi.array().items(Joi.string()).required()
     })
 }

@@ -45,6 +45,8 @@ export class UserUseCase {
     async getPage(page:number) : Promise<Result<UserResponseDTO>>{
         const traceId = generateTrace();
         const result = await this.operation.getPage(page);
+        if(!result)
+            return null
         return ResponseDTO.format<UserResponseDTO>(traceId, mappingUserDTO(result.data), 1, "UserCase, GetPage", result.total)
     }
 
