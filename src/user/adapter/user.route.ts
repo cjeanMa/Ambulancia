@@ -27,7 +27,7 @@ router.post("/",
             UploadMiddleware.S3("photo",["image/gif", "image/png", "image/jpeg", "image/jpg"]),
             mergeParameter(),
             validatorJoi(userSchemas.INSERT),
-            userController.create)
+            ErrorHandler.asyncError(userController.create))
 router.put("/:id",
             mergeParameter(), 
             validatorJoi(userSchemas.UPDATE),

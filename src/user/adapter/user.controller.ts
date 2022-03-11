@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { UsingJoinColumnOnlyOnOneSideAllowedError } from "typeorm";
 import { RoleRepository } from "../../role/application/role.repository";
-import { RoleOperation } from "../../role/infraestructure/Role.operation";
+import { RoleOperation } from "../../role/infraestructure/role.operation";
 import { Result } from "../../shared/application/result.repository";
 import { UserResponseDTO } from "../application/user.dto";
 import { UserRepository } from "../application/user.repository";
