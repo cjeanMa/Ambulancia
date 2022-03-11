@@ -4,3 +4,4 @@ Api Rest with NodeJS (Express) to manage a little system of ambulances; trying h
 ## Tools 
 - Typescript
 - Joi
+- Multer
