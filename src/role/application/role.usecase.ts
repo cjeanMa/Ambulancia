@@ -3,8 +3,8 @@ import { Result } from "../../shared/application/result.repository";
 import { ResponseDTO } from "../../shared/helpers/response.dto";
 import { generateTrace } from "../../shared/helpers/trace";
 import { RoleModel } from "../domain/role.model";
-import { RoleOperation } from "../infraestructure/Role.operation";
-import { RoleRepository } from "./Role.repository";
+import { RoleOperation } from "../infraestructure/role.operation";
+import { RoleRepository } from "./role.repository";
 
 export class RoleUseCase{
 

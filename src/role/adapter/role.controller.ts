@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Result } from "../../shared/application/result.repository";
 import { RoleRepository } from "../application/role.repository";
 import { RoleUseCase } from "../application/role.usecase";
-import { RoleModel } from "../domain/Role.model";
+import { RoleModel } from "../domain/role.model";
 import { RoleOperation } from "../infraestructure/role.operation";
 
 const roleOperation:RoleRepository = new RoleOperation();

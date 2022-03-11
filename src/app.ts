@@ -16,6 +16,11 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 /* Routes */
+
+app.get("/status", (req : Request, res: Response) => {
+    res.send("OK")
+})
+
 app.use("/users", routeUsers)
 app.use("/medics", routeMedics)
 app.use("/drivers", routeDrivers)
